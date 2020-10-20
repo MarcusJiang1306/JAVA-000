@@ -1,0 +1,43 @@
+Compiled from "Demo.java"
+public class Demo {
+  public Demo();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: iconst_3
+       1: istore_1
+       2: iconst_5
+       3: istore_2
+       4: iload_2
+       5: iload_1
+       6: isub
+       7: istore_3
+       8: iload_3
+       9: iload_2
+      10: imul
+      11: istore        4
+      13: iload         4
+      15: iload_3
+      16: idiv
+      17: istore        5
+      19: iconst_0
+      20: istore        6
+      22: iload         6
+      24: bipush        10
+      26: if_icmpge     53
+      29: iload         6
+      31: iconst_2
+      32: irem
+      33: ifne          39
+      36: goto          47
+      39: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+      42: iload         6
+      44: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+      47: iinc          6, 1
+      50: goto          22
+      53: return
+}
