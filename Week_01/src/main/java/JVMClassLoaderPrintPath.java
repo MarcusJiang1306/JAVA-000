@@ -1,4 +1,4 @@
-import sun.misc.Launcher;
+//import sun.misc.Launcher;
 
 import java.lang.reflect.Field;
 import java.net.URL;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class JVMClassLoaderPrintPath {
     public static void main(String[] args) {
-        URL[] urLs = Launcher.getBootstrapClassPath().getURLs();
+       /* URL[] urLs = Launcher.getBootstrapClassPath().getURLs();
         System.out.println("启动类加载器");
         for (URL urL : urLs) {
             System.out.println(" ==> " + urL.toExternalForm());
@@ -16,7 +16,7 @@ public class JVMClassLoaderPrintPath {
         printClassLoader("扩展类加载器", JVMClassLoaderPrintPath.class.getClassLoader().getParent());
 
         printClassLoader("应用类加载器", JVMClassLoaderPrintPath.class.getClassLoader());
-
+*/
     }
     public static void printClassLoader(String name, ClassLoader CL) {
         if (CL != null) {
@@ -43,7 +43,7 @@ public class JVMClassLoaderPrintPath {
             } else {
                 f = obj.getClass().getDeclaredField(fName);
             }
-            f.setAccessible(true);
+//            f.setAccessible(true);
             return f.get(obj);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
