@@ -1,4 +1,4 @@
-![Image text](src\main\resources\gc案例.png)
+![Image text](https://github.com/MarcusJiang1306/JAVA-000/blob/main/Week_02/src/main/resources/gc%E6%A1%88%E4%BE%8B.png)
 ## gc日志分析
 以上图表是基于GCLogAnalysis的分析结果，最上面的是老师的原版，1是在原有的基础上运行十秒，2是在10秒的基础上有随机休眠以降低对象的生成速度。后面会提到为什么会有三组案例。  
 三组实验总体表现趋同，Parallel和G1表现出了较好的吞吐性能。Serial随着堆大小越来越大，单次gc时间也在加长，造成吞吐量下降，响应时间变长。值得一提的是CMS，在1g的堆以上吞吐量开始下降，我便开始尝试对CMS的日志进行分析  
