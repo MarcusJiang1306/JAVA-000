@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class App {
-    private int port = 8068;
+    private int port = 8070;
 
     public static void main(String[] args) {
         log.info("start");
@@ -30,13 +30,15 @@ public class App {
 
         try {
             ServerBootstrap b = new ServerBootstrap();
+            HttpOutboundHandler httpOutboundHandler = new HttpOutboundHandler();
+
 
             b.option(ChannelOption.SO_BACKLOG, 128)
                     .option(ChannelOption.SO_REUSEADDR, true)
                     .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                     .option(ChannelOption.SO_RCVBUF, 32 * 1024)
                     .childOption(ChannelOption.SO_SNDBUF, 32 * 1024)
-                    .childOption(EpollChannelOption.SO_REUSEPORT, true)
+//                    .childOption(EpollChannelOption.SO_REUSEPORT, true)
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .childOption(ChannelOption.TCP_NODELAY, true);
 
@@ -49,7 +51,7 @@ public class App {
                     pipeline.addLast(new HttpServerCodec());
                     pipeline.addLast(new HttpObjectAggregator(1024 * 1024));
                     pipeline.addLast(new HeaderNioFilter());
-                    pipeline.addLast(new HttpOutboundHandler());
+                    pipeline.addLast(httpOutboundHandler);
                 }
             });
 
