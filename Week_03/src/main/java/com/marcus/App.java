@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class App {
-    private int port = 8070;
+    private int port = 8069;
 
     public static void main(String[] args) {
         log.info("start");
@@ -30,7 +30,7 @@ public class App {
 
         try {
             ServerBootstrap b = new ServerBootstrap();
-            HttpOutboundHandler httpOutboundHandler = new HttpOutboundHandler();
+            HttpOutboundHandler httpOutboundHandler = new HttpOutboundHandler(true);
 
 
             b.option(ChannelOption.SO_BACKLOG, 128)
