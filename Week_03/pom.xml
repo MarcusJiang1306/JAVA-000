@@ -85,10 +85,17 @@
         </dependency>
         -->
 
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>4.1.4</version>
+        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
+            <!-- 配置jdk版本为1.8 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -99,7 +106,6 @@
             </plugin>
         </plugins>
     </build>
-
 
 
 </project>

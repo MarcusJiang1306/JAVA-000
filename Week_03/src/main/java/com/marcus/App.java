@@ -1,5 +1,7 @@
-import filter.HeaderNioFilter;
-import handler.HttpOutboundHandler;
+package com.marcus;
+
+import com.marcus.filter.HeaderNioFilter;
+import com.marcus.handler.HttpOutboundHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;

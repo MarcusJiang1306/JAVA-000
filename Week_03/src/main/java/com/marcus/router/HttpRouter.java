@@ -1,9 +1,8 @@
-package router;
+package com.marcus.router;
 
-import java.util.Arrays;
 import java.util.List;
 
-public class HTTPRouter implements HttpEndpointRouter {
+public class HttpRouter implements HttpEndpointRouter {
 
     private int seq = 0;
 
