@@ -1,4 +1,4 @@
-package com.marcus.router;
+package com.marcus.server.router;
 
 import java.util.List;
 

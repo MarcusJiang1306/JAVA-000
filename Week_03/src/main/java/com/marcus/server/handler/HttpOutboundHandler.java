@@ -1,7 +1,7 @@
-package com.marcus.handler;
+package com.marcus.server.handler;
 
 import com.marcus.client.NettyHttpClient;
-import com.marcus.router.HttpRouter;
+import com.marcus.server.router.HttpRouter;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;

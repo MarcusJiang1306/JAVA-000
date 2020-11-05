@@ -1,11 +1,10 @@
-package com.marcus;
+package com.marcus.server;
 
-import com.marcus.filter.HeaderNioFilter;
-import com.marcus.handler.HttpOutboundHandler;
+import com.marcus.server.filter.HeaderNioFilter;
+import com.marcus.server.handler.HttpOutboundHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
-import io.netty.channel.epoll.EpollChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -17,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class App {
-    private int port = 8069;
+    private int port = 8068;
 
     public static void main(String[] args) {
         log.info("start");

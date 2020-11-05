@@ -1,4 +1,4 @@
-package com.marcus.filter;
+package com.marcus.server.filter;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
