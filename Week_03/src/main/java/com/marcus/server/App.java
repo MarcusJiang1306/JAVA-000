@@ -1,6 +1,6 @@
 package com.marcus.server;
 
-import com.marcus.server.filter.HeaderNioFilter;
+import com.marcus.server.filter.HeaderFilter;
 import com.marcus.server.handler.HttpOutboundHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -29,8 +29,6 @@ public class App {
 
         try {
             ServerBootstrap b = new ServerBootstrap();
-            HttpOutboundHandler httpOutboundHandler = new HttpOutboundHandler(true);
-
 
             b.option(ChannelOption.SO_BACKLOG, 128)
                     .option(ChannelOption.SO_REUSEADDR, true)
@@ -49,8 +47,8 @@ public class App {
                     ChannelPipeline pipeline = ch.pipeline();
                     pipeline.addLast(new HttpServerCodec());
                     pipeline.addLast(new HttpObjectAggregator(1024 * 1024));
-                    pipeline.addLast(new HeaderNioFilter());
-                    pipeline.addLast(httpOutboundHandler);
+                    pipeline.addLast(new HeaderFilter());
+                    pipeline.addLast(new HttpOutboundHandler(true));
                 }
             });
 

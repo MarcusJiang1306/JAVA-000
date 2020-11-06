@@ -5,12 +5,16 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.FullHttpRequest;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Slf4j
-public class HeaderNioFilter extends ChannelInboundHandlerAdapter implements HttpRequestFilter {
+public class HeaderFilter extends ChannelInboundHandlerAdapter implements HttpRequestFilter {
+    private AtomicInteger integer = new AtomicInteger(0);
 
     @Override
     public void filter(FullHttpRequest fullRequest, ChannelHandlerContext ctx) {
         fullRequest.headers().set("Nio", "Marcus");
+        fullRequest.headers().set("requestID", integer.incrementAndGet());
     }
 
     @Override
@@ -22,7 +26,7 @@ public class HeaderNioFilter extends ChannelInboundHandlerAdapter implements Htt
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.error("headerNioFilter hit exception");
+        log.error("headerFilter hit exception");
         cause.printStackTrace();
     }
 }

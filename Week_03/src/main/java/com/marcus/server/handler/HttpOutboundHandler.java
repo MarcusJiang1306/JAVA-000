@@ -1,6 +1,9 @@
 package com.marcus.server.handler;
 
 import com.marcus.client.NettyHttpClient;
+import com.marcus.dispatcher.RequestPendingCenter;
+import com.marcus.pool.HttpClientPool;
+import com.marcus.pool.HttpResponseFuture;
 import com.marcus.server.router.HttpRouter;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
@@ -24,21 +27,23 @@ import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 @Slf4j
-@ChannelHandler.Sharable
 public class HttpOutboundHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     private HttpRouter httpRouter;
     private List<String> serverList;
     private OkHttpClient client = new OkHttpClient();
     private boolean useOkClient;
+    private HttpClientPool clientPool = new HttpClientPool();
+    private RequestPendingCenter requestPendingCenter = RequestPendingCenter.getInstance();
+
 
     public HttpOutboundHandler(boolean useOkClient) {
         super(false);
 
         this.httpRouter = new HttpRouter();
-        this.serverList = Arrays.asList("http://localhost:8801"
-                , "http://localhost:8802"
-                , "http://localhost:8803"
+        this.serverList = Arrays.asList("http://localhost:9350"
+//                , "http://localhost:8802"
+//                , "http://localhost:8803"
         );
         this.useOkClient = useOkClient;
 
@@ -46,11 +51,11 @@ public class HttpOutboundHandler extends SimpleChannelInboundHandler<FullHttpReq
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest fullHttpRequest) throws Exception {
-        if (useOkClient) {
-            sendRequestFromOkClient(ctx, fullHttpRequest);
-        } else {
-            sendRequestFromNettyClient(ctx, fullHttpRequest);
-        }
+        String requestID = fullHttpRequest.headers().get("requestID");
+        System.out.println("outboundHandler requestID" + requestID);
+        clientPool.newCall(serverList.get(0), fullHttpRequest);
+        HttpResponseFuture future = requestPendingCenter.get(requestID);
+        ctx.writeAndFlush(future.get());
     }
 
     private void sendRequestFromOkClient(ChannelHandlerContext ctx, FullHttpRequest fullHttpRequest) throws IOException {
