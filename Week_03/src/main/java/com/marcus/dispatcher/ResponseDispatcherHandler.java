@@ -14,6 +14,7 @@ public class ResponseDispatcherHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         FullHttpResponse response = (FullHttpResponse) msg;
         String requestID = response.headers().get("requestID");
+//        System.out.println("dispatcher get request id:" + requestID);
         requestPendingCenter.set(requestID, response);
     }
 }

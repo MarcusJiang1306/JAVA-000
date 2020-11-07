@@ -9,12 +9,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public class HeaderFilter extends ChannelInboundHandlerAdapter implements HttpRequestFilter {
-    private AtomicInteger integer = new AtomicInteger(0);
+
 
     @Override
     public void filter(FullHttpRequest fullRequest, ChannelHandlerContext ctx) {
         fullRequest.headers().set("Nio", "Marcus");
-        fullRequest.headers().set("requestID", integer.incrementAndGet());
+        fullRequest.headers().set("requestID", fullRequest.hashCode());
     }
 
     @Override

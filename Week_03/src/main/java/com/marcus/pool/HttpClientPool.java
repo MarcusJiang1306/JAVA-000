@@ -4,40 +4,39 @@ import com.marcus.dispatcher.RequestPendingCenter;
 import io.netty.channel.Channel;
 import io.netty.channel.pool.FixedChannelPool;
 import io.netty.handler.codec.http.*;
-import io.netty.util.concurrent.DefaultPromise;
 import io.netty.util.concurrent.Future;
 
 import java.net.InetSocketAddress;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 
 public class HttpClientPool {
 
-    HttpChannelPoolMap poolMap = new HttpChannelPoolMap();
+    HttpChannelPoolMap poolMap = new HttpChannelPoolMap(3, 6);
     private RequestPendingCenter requestPendingCenter = RequestPendingCenter.getInstance();
 
 
     public HttpClientPool() {
     }
 
-    public void newCall(String url, FullHttpRequest request) {
+    public void newCall(String requestID, String url, FullHttpRequest request) {
         InetSocketAddress addr = getAddr(url);
         FixedChannelPool pool = poolMap.get(addr);
         Future<Channel> f = pool.acquire();
-        Channel channel = null;
+
         try {
-            channel = f.get();
+            Channel channel = f.get();
             HttpResponseFuture future = new HttpResponseFuture();
-            requestPendingCenter.add(request.headers().get("requestID"), future);
+            requestPendingCenter.add(requestID, future);
             channel.writeAndFlush(request);
             pool.release(channel);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            requestPendingCenter.set(requestID, getErrorResponse(requestID));
         }
-
 
 
     }
@@ -47,14 +46,12 @@ public class HttpClientPool {
         return InetSocketAddress.createUnresolved(uri.getHost(), uri.getPort());
     }
 
-    private static FullHttpRequest getRequest() {
+    private DefaultFullHttpResponse getErrorResponse(String requestID) {
 
-        DefaultFullHttpRequest defaultFullHttpRequest = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/");
+        DefaultFullHttpResponse defaultFullHttpRequest = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.INTERNAL_SERVER_ERROR);
         defaultFullHttpRequest.headers().set("connection", HttpHeaders.Values.KEEP_ALIVE);
-        defaultFullHttpRequest.headers().set("host", "localhost:9350");
         defaultFullHttpRequest.headers().set("accept-encoding", "gzip");
-        defaultFullHttpRequest.headers().set("user-agent", "okhttp/4.7.2");
-        defaultFullHttpRequest.headers().set("requestID", "1");
+        defaultFullHttpRequest.headers().set("requestID", requestID);
         return defaultFullHttpRequest;
 
     }

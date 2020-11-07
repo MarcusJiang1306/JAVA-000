@@ -41,9 +41,9 @@ public class HttpOutboundHandler extends SimpleChannelInboundHandler<FullHttpReq
         super(false);
 
         this.httpRouter = new HttpRouter();
-        this.serverList = Arrays.asList("http://localhost:9350"
-//                , "http://localhost:8802"
-//                , "http://localhost:8803"
+        this.serverList = Arrays.asList("http://localhost:8801"
+                , "http://localhost:8802"
+                , "http://localhost:8803"
         );
         this.useOkClient = useOkClient;
 
@@ -52,8 +52,8 @@ public class HttpOutboundHandler extends SimpleChannelInboundHandler<FullHttpReq
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest fullHttpRequest) throws Exception {
         String requestID = fullHttpRequest.headers().get("requestID");
-        System.out.println("outboundHandler requestID" + requestID);
-        clientPool.newCall(serverList.get(0), fullHttpRequest);
+//        System.out.println("outboundHandler requestID" + requestID);
+        clientPool.newCall(requestID,serverList.get(0), fullHttpRequest);
         HttpResponseFuture future = requestPendingCenter.get(requestID);
         ctx.writeAndFlush(future.get());
     }
