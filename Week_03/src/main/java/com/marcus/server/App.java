@@ -47,10 +47,10 @@ public class App {
                 @Override
                 protected void initChannel(NioSocketChannel ch) throws Exception {
                     ChannelPipeline pipeline = ch.pipeline();
-                    pipeline.addLast(new HttpServerCodec());
-                    pipeline.addLast(new HttpObjectAggregator(1024 * 1024));
-                    pipeline.addLast(new HeaderFilter());
-                    pipeline.addLast(new HttpOutboundHandler());
+                    pipeline.addLast("HttpServerCodec", new HttpServerCodec());
+                    pipeline.addLast("HttpObjectAggregator", new HttpObjectAggregator(1024 * 1024));
+                    pipeline.addLast("HeaderFilter", new HeaderFilter());
+                    pipeline.addLast("HttpOutboundHandler", new HttpOutboundHandler());
                 }
             });
 

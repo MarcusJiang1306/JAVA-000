@@ -15,11 +15,11 @@ public class HttpChannelPoolHandler extends AbstractChannelPoolHandler {
     public void channelCreated(Channel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
 //      The following line is for request & response codec.
-        pipeline.addLast(new HttpClientCodec());
+        pipeline.addLast("HttpClientCodec", new HttpClientCodec());
 //      The following line is for automatic content decompression.
-        pipeline.addLast(new HttpContentDecompressor());
+        pipeline.addLast("HttpContentDecompressor",new HttpContentDecompressor());
 //      The following line is for handle HttpContents.
-        pipeline.addLast(new HttpObjectAggregator(1024 * 1024));
-        pipeline.addLast(new ResponseDispatcherHandler());
+        pipeline.addLast("HttpObjectAggregator",new HttpObjectAggregator(1024 * 1024));
+        pipeline.addLast("ResponseDispatcherHandler",new ResponseDispatcherHandler());
     }
 }
