@@ -1,7 +1,5 @@
 package com.marcus.pool;
 
-import com.marcus.client.handler.PoolClientResponseHandler;
-import com.marcus.dispatcher.RequestPendingCenter;
 import com.marcus.dispatcher.ResponseDispatcherHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelPipeline;

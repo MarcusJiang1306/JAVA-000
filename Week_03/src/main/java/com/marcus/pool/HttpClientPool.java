@@ -1,6 +1,7 @@
 package com.marcus.pool;
 
 import com.marcus.dispatcher.RequestPendingCenter;
+import com.marcus.util.HttpResponseTemplate;
 import io.netty.channel.Channel;
 import io.netty.channel.pool.FixedChannelPool;
 import io.netty.handler.codec.http.*;
@@ -9,8 +10,6 @@ import io.netty.util.concurrent.Future;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 
 public class HttpClientPool {
@@ -35,10 +34,8 @@ public class HttpClientPool {
             pool.release(channel);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            requestPendingCenter.set(requestID, getErrorResponse(requestID));
+            requestPendingCenter.set(requestID, HttpResponseTemplate.getErrorResponse(requestID));
         }
-
-
     }
 
     private static InetSocketAddress getAddr(String url) {
@@ -46,13 +43,5 @@ public class HttpClientPool {
         return InetSocketAddress.createUnresolved(uri.getHost(), uri.getPort());
     }
 
-    private DefaultFullHttpResponse getErrorResponse(String requestID) {
 
-        DefaultFullHttpResponse defaultFullHttpRequest = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.INTERNAL_SERVER_ERROR);
-        defaultFullHttpRequest.headers().set("connection", HttpHeaders.Values.KEEP_ALIVE);
-        defaultFullHttpRequest.headers().set("accept-encoding", "gzip");
-        defaultFullHttpRequest.headers().set("requestID", requestID);
-        return defaultFullHttpRequest;
-
-    }
 }

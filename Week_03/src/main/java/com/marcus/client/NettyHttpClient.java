@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.net.URI;
 
 @Slf4j
+@Deprecated
 public class NettyHttpClient {
     private Channel ch ;
     private HttpClientResponseHandler httpClientResponseHandler;

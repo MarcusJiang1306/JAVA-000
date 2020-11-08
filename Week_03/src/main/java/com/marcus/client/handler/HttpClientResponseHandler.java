@@ -2,12 +2,11 @@ package com.marcus.client.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Deprecated
 public class HttpClientResponseHandler extends ChannelInboundHandlerAdapter {
 
     private ChannelHandlerContext ChannelHandlerContext;

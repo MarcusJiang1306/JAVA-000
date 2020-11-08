@@ -14,6 +14,9 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 此版本需要搭配会回传requestID的header后端服务器使用
+ */
 @Slf4j
 public class App {
     private int port = 8068;
@@ -35,7 +38,6 @@ public class App {
                     .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                     .option(ChannelOption.SO_RCVBUF, 32 * 1024)
                     .childOption(ChannelOption.SO_SNDBUF, 32 * 1024)
-//                    .childOption(EpollChannelOption.SO_REUSEPORT, true)
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .childOption(ChannelOption.TCP_NODELAY, true);
 
@@ -48,7 +50,7 @@ public class App {
                     pipeline.addLast(new HttpServerCodec());
                     pipeline.addLast(new HttpObjectAggregator(1024 * 1024));
                     pipeline.addLast(new HeaderFilter());
-                    pipeline.addLast(new HttpOutboundHandler(true));
+                    pipeline.addLast(new HttpOutboundHandler());
                 }
             });
 
