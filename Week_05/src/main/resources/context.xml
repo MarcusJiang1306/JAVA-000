@@ -9,8 +9,16 @@
                         http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
 
 
-    <context:component-scan base-package="com.marcus.configs.xml"/>
-    <context:property-placeholder location="student.properties"/>
+    <context:component-scan base-package="com.marcus.configs.xml, com.marcus.sql"/>
+
+    <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+        <list>
+            <value>classpath:student.properties</value>
+            <value>classpath:DataSource.properties</value>
+        </list>
+    </property>
+    </bean>
 
     <bean id="st1" class="com.marcus.configs.xml.Student">
         <constructor-arg name="id" value="${student.config.st1.id}"/>
@@ -43,5 +51,11 @@
     </bean>
 
     <bean id="school" class="com.marcus.configs.xml.School"/>
+
+    <bean id="dataSource" class="com.mysql.cj.jdbc.MysqlConnectionPoolDataSource">
+        <property name="url" value="${mysql.url}"/>
+        <property name="user" value="${mysql.username}"/>
+        <property name="password" value="${mysql.password}"/>
+    </bean>
 
 </beans>
