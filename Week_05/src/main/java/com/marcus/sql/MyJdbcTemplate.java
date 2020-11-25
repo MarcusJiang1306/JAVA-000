@@ -8,7 +8,10 @@ import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import javax.sql.ConnectionEvent;
+import javax.sql.ConnectionEventListener;
 import javax.sql.DataSource;
+import javax.sql.PooledConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -77,5 +80,21 @@ public class MyJdbcTemplate {
             JdbcUtils.closeStatement(stmt);
             DataSourceUtils.releaseConnection(con, getDataSource());
         }
+    }
+
+    public void DataSource() throws SQLException {
+        MysqlConnectionPoolDataSource dataSource = (MysqlConnectionPoolDataSource) this.dataSource;
+        PooledConnection pooledConnection = dataSource.getPooledConnection();
+        pooledConnection.addConnectionEventListener(new ConnectionEventListener() {
+            @Override
+            public void connectionClosed(ConnectionEvent event) {
+
+            }
+
+            @Override
+            public void connectionErrorOccurred(ConnectionEvent event) {
+
+            }
+        });
     }
 }
