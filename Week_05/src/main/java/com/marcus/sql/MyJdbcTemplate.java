@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class MyJdbcTemplate {
@@ -63,7 +64,6 @@ public class MyJdbcTemplate {
         Connection con = DataSourceUtils.getConnection(getDataSource());
         PreparedStatement stmt = null;
         try {
-            Connection conToUse = con;
 
             stmt = psh.createPreparedStatement(con);
 

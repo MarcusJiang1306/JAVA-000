@@ -7,9 +7,8 @@ CREATE TABLE `customer` (
   `address` VARCHAR(64) NOT NULL comment '地址',
   `create_time` BIGINT UNSIGNED NOT NULL comment '创建时间',
   `update_time` BIGINT UNSIGNED NOT NULL comment '更新时间',
-  UNIQUE INDEX `customer_id_UNIQUE` (`customer_id` ASC) VISIBLE,
   UNIQUE INDEX `mobile_UNIQUE` (`mobile` ASC) VISIBLE,
-  PRIMARY KEY (`mobile`))
+  PRIMARY KEY (`customer_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
