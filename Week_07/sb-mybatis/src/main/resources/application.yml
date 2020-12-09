@@ -3,10 +3,10 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       primary:
-        url: jdbc:mysql://47.112.124.222:3306/test?serverTimezone=UTC
-        username: marcus
+        url: jdbc:mysql://localhost:3306/test1?serverTimezone=UTC
+        username: root
         password: 1234
       secondary:
-        url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC
+        url: jdbc:mysql://localhost:3306/test0?serverTimezone=UTC
         username: root
         password: 1234
